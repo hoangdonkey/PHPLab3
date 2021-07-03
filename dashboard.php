@@ -27,8 +27,11 @@
                             <h2>Manage <b>Employees</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                            <a href="./add.php" class="btn btn-success">
+                                <i class="material-icons">&#xE147;</i>
+                                <span>Add New Employee</span></a>
+                            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i
+                                    class="material-icons">&#xE15C;</i> <span>Delete</span></a>
                         </div>
                     </div>
                 </div>
@@ -52,14 +55,10 @@
                         <!-- Display employee database -->
 
                         <?php
-                        $myDB = new mysqli('localhost', 'root', '', 'employees');
-                        if ($myDB->connect_error) {
-                            die('Connect Error (' . $myDB->connect_errno . ') '
-                                . $myDB->connect_error);
-                        }
+                        include_once './config.php';
 
                         $sql = "SELECT * FROM `employees`.`employee`";
-                        $result = $myDB->query($sql) or die($myDB->error);
+                        $result = $link->query($sql) or die($link->error);
 
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
@@ -102,57 +101,6 @@
         </div>
     </div>
     <!-- Add employee -->
-
-    <div id="addEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Add Employee</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input name="name" type="text" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input name="email" type="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea name="address" class="form-control" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input name="phone" type="text" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-success" value="Add">
-                    </div>
-                    <?php
-                    $name = "";
-                    $email = "";
-                    $address = "";
-                    $phone = "";
-
-                    $myDB = new mysqli('localhost', 'root', '', 'employees');
-                    if ($myDB->connect_error) {
-                        die('Connect Error (' . $myDB->connect_errno . ') '
-                            . $myDB->connect_error);
-                    }
-                    if (!empty($name) && !empty($email) && !empty($address) && !empty($phone)) {
-                        $addemp = "INSERT INTO `employee` (`name`, `email`, `address`, `phone`) VALUES ('" . $name . "','" . $email . "','" . $address . "', '" . $phone . "')";
-                        $myDB->query($addemp);
-                    }
-                    ?>
-                </form>
-            </div>
-        </div>
-    </div>
     <!-- Edit Modal HTML -->
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
